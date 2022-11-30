@@ -6,6 +6,7 @@ import javafx.collections.ObservableList;
 
 import java.sql.ResultSet;
 import java.time.LocalDate;
+import java.util.Collections;
 
 public class Model {
     private static Model model;
@@ -83,6 +84,8 @@ public class Model {
     private void prepareTransactions(ObservableList<Transaction> transactions, int limit) {
         ResultSet resultSet = databaseDriver.getTransactions(this.client.pAddressProperty().get(), limit);
         try {
+
+            transactions.clear();
             while (resultSet.next()){
                 String sender = resultSet.getString("Sender");
                 String receiver = resultSet.getString("Receiver");
@@ -91,7 +94,10 @@ public class Model {
                 LocalDate date = LocalDate.of(Integer.parseInt(dateParts[0]), Integer.parseInt(dateParts[1]), Integer.parseInt(dateParts[2]));
                 String message = resultSet.getString("Message");
                 transactions.add(new Transaction(sender, receiver, amount, date, message));
+
             }
+//            Collections.reverse(transactions);
+//            System.out.println("11111111111");
         }catch (Exception e){
             e.printStackTrace();
         }

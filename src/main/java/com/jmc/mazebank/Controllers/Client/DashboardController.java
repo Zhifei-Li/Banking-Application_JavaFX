@@ -35,6 +35,7 @@ public class DashboardController implements Initializable {
         transaction_listview.setItems(Model.getInstance().getLatestTransactions());
         transaction_listview.setCellFactory(e -> new TransactionCellFactory());
         send_money_btn.setOnAction(event -> onSendMoney());
+
         accountSummary();
     }
     private void bindData() {
@@ -75,6 +76,20 @@ public class DashboardController implements Initializable {
         payee_fld.setText("");
         amount_fld.setText("");
         message_fld.setText("");
+        updateTransactions();
+        updateExpense(amount);
+    }
+    private void updateExpense(double b){
+        String pre = expense_lbl.getText().substring(3);
+        double a = Double.valueOf(pre);
+        double res = a+b;
+        expense_lbl.setText("- $" +res);
+    }
+    private void updateTransactions(){
+        Model.getInstance().setLatestTransactions();
+        transaction_listview.setItems(Model.getInstance().getLatestTransactions());
+        transaction_listview.setCellFactory(e -> new TransactionCellFactory());
+        Model.getInstance().setAllTransactions();
     }
 
     // Method calculates all expenses and income

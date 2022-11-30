@@ -57,6 +57,21 @@ public class DatabaseDriver {
         return balance;
     }
 
+    // Method returns ckecking account balance
+    public double getCheckingsAccountBalance(String pAddress) {
+        Statement statement;
+        ResultSet resultSet;
+        double balance = 0;
+        try {
+            statement = this.conn.createStatement();
+            resultSet = statement.executeQuery("SELECT * FROM CheckingAccounts WHERE Owner='"+pAddress+"';");
+            balance = resultSet.getDouble("Balance");
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return balance;
+    }
+
     // Method to either add or subtract from balance given operation
     public void updateBalance(String pAddress, double amount, String operation) {
         Statement statement;
@@ -72,6 +87,28 @@ public class DatabaseDriver {
                 if (resultSet.getDouble("Balance") >= amount) {
                     newBalance = resultSet.getDouble("Balance") - amount;
                     statement.executeUpdate("UPDATE SavingsAccounts SET Balance="+newBalance+" WHERE Owner='"+pAddress+"';");
+                }
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
+
+    // Method to either add or subtract from balance given operation
+    public void updateCheckBalance(String pAddress, double amount, String operation) {
+        Statement statement;
+        ResultSet resultSet;
+        try{
+            statement = this.conn.createStatement();
+            resultSet = statement.executeQuery("SELECT * FROM CheckingAccounts WHERE Owner='"+pAddress+"';");
+            double newBalance;
+            if (operation.equals("ADD")){
+                newBalance = resultSet.getDouble("Balance") + amount;
+                statement.executeUpdate("UPDATE CheckingAccounts SET Balance="+newBalance+" WHERE Owner='"+pAddress+"';");
+            } else {
+                if (resultSet.getDouble("Balance") >= amount) {
+                    newBalance = resultSet.getDouble("Balance") - amount;
+                    statement.executeUpdate("UPDATE CheckingAccounts SET Balance="+newBalance+" WHERE Owner='"+pAddress+"';");
                 }
             }
         }catch (SQLException e){
