@@ -15,6 +15,7 @@ public class ClientCellController implements Initializable {
     public Label ch_acc_lbl;
     public Label sv_acc_lbl;
     public Label date_lbl;
+
     public Button delete_btn;
 
     private final Client client;
