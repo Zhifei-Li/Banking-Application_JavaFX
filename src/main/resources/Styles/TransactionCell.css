@@ -30,7 +30,7 @@
 }
 
 .message_btn FontAwesomeIconView {
-    -fx-fill: #132A13;
+    -fx-fill: #5F9EA0;
 }
 
 .message_btn:hover {
@@ -38,7 +38,7 @@
 }
 
 .trans_amount_lbl {
-    -fx-background-color: #132A13;
+    -fx-background-color: #5F9EA0;
     -fx-background-radius: 2;
     -fx-text-fill: #FFFFFF;
     -fx-padding: 5;
